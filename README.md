@@ -2,5 +2,10 @@
 
 
 ### 参考借鉴：
-1. 自己开发项目总结；
-2. https://github.com/JowayYoung/trample/blob/master/readme.md
+- 自己开发项目总结；
+- https://github.com/JowayYoung/trample/blob/master/readme.md
+
+### 下一步计划
+
+- 用ts改写
+- 目录结构（utils方法分类）整理
