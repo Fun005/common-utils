@@ -1,0 +1,28 @@
+{
+  "name": "common-utils",
+  "version": "0.1.0",
+  "description": "my common utils collection",
+  "keywords": [
+    "common-utils"
+  ],
+  "author": {
+    "name": "fun005"
+  },
+  "homepage": "https://github.com/fun005",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fun005/common-utils.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "lodash-es": "^4.17.15",
+    "moment": "^2.24.0",
+    "prop-types": "^15.7.2",
+    "query-string": "^5.1.0"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">= 10.0.0",
+    "npm": ">= 5.6.0"
+  }
+}
