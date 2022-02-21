@@ -1,10 +1,11 @@
-import { MATCH } from './validator.js'
+/** 字符工具 **/
+import { MATCH } from "./regexp.js";
 
 /**
  * @name 脱敏手机
  * @param {string} [phone=""] 手机
  */
-function desePhone(phone = "") {
+function desePhone (phone = "") {
 	return MATCH.phone.regexp.test(phone)
 		? phone.toString().replace(/(\d{3})\d*(\d{4})/g, "$1****$2")
 		: phone;
@@ -15,7 +16,7 @@ function desePhone(phone = "") {
  * @param {string} [phone=""] 手机
  * @param {string} [sign="-"] 标记：-、\s
  */
-function formatPhone(phone = "", sign = "-") {
+function formatPhone (phone = "", sign = "-") {
 	return MATCH.phone.regexp.test(phone) && ["-", " "].includes(sign)
 		? phone.toString().replace(/(\d{3})(\d{4})(\d{4})/g, `$1${sign}$2${sign}$3`)
 		: phone;
@@ -24,7 +25,7 @@ function formatPhone(phone = "", sign = "-") {
 /**
  * @name 随机HEX色值
  */
-function randomColor() {
+function randomColor () {
 	return "#" + Math.floor(Math.random() * 0xffffff).toString(16).padEnd(6, "0");
 }
 
@@ -32,7 +33,7 @@ function randomColor() {
  * @name 随机长度ID
  * @param {number} [len=3] 长度 在1~10之间
  */
-function randomId(len = 5) {
+function randomId (len = 5) {
 	(len < 1 || len > 10) && (len = 5);
 	return Math.random().toString(36).substr(3, len);
 }
@@ -41,7 +42,7 @@ function randomId(len = 5) {
  * @name 移除标签
  * @param {string} [text=""] 文本
  */
-function removeTag(text = "") {
+function removeTag (text = "") {
 	return text.replace(/<[^>]*>/g, "");
 }
 
@@ -49,7 +50,7 @@ function removeTag(text = "") {
  * @name 翻转文本
  * @param {string} [text=""] 文本
  */
-function reverseText(text = "") {
+function reverseText (text = "") {
 	return text.split("").reduceRight((t, v) => t + v);
 }
 
@@ -58,7 +59,7 @@ function reverseText(text = "") {
  * @param {number} [rate=0] 星级 在0~5之间
  * @param {number} [len=5] 长度
  */
-function starScore(rate = 0, len = 5) {
+function startScore (rate = 0, len = 5) {
 	(rate < 0) && (rate = 0);
 	(rate > len) && (rate = len);
 	return [
@@ -74,15 +75,5 @@ export {
 	randomId,
 	removeTag,
 	reverseText,
-	starScore
-};
-
-export default {
-	desePhone,
-	formatPhone,
-	randomColor,
-	randomId,
-	removeTag,
-	reverseText,
-	starScore
+	startScore
 };

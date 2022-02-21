@@ -1,67 +1,76 @@
 /** Storage工具 **/
 
 /**
- * @name 设置localStorage
- * @param {string} [key=""] 键
- * @param {string} [val=""] 值
+ * @name 清空LocalStorage
  */
-export function setLocalStorage(key = "", val = "") {
-	localStorage.setItem(key, JSON.stringify(val));
+function clearLStorage () {
+	localStorage.clear();
 }
 
 /**
- * @name 读取localStorage
+ * @name 清空SessionStorage
+ */
+function clearSStorage () {
+	sessionStorage.clear();
+}
+
+/**
+ * @name 读取LocalStorage
  * @param {string} [key=""] 键
  */
-export function getLocalStorage(key = "") {
+function getLStorage (key = "") {
 	return JSON.parse(localStorage.getItem(key));
 }
 
 /**
- * @name 移除localStorage
+ * @name 读取SessionStorage
  * @param {string} [key=""] 键
  */
-export function removeLocalStorage(key = "") {
-	localStorage.removeItem(key);
-}
-
-/**
- * @name 清空localStorage
- */
-export function clearLocalStorage() {
-	localStorage.clear();
-}
-
-
-/**
- * @name 设置sessionStorage
- * @param {string} [key=""] 键
- * @param {string} [val=""] 值
- */
-export function setSessionStorage(key = "", val = "") {
-	sessionStorage.setItem(key, JSON.stringify(val));
-}
-
-/**
- * @name 读取sessionStorage
- * @param {string} [key=""] 键
- */
-export function getSessionStorage(key = "") {
+function getSStorage (key = "") {
 	return JSON.parse(sessionStorage.getItem(key));
 }
 
 /**
- * @name 移除sessionStorage
+ * @name 移除LocalStorage
  * @param {string} [key=""] 键
  */
-export function removeSessionStorage(key = "") {
+function removeLStorage (key = "") {
+	localStorage.removeItem(key);
+}
+
+/**
+ * @name 移除SessionStorage
+ * @param {string} [key=""] 键
+ */
+function removeSStorage (key = "") {
 	sessionStorage.removeItem(key);
 }
 
 /**
- * @name 清空sessionStorage
+ * @name 设置LocalStorage
+ * @param {string} [key=""] 键
+ * @param {string} [val=""] 值
  */
-export function clearSessionStorage() {
-	sessionStorage.clear();
+function setLStorage (key = "", val = "") {
+	localStorage.setItem(key, JSON.stringify(val));
 }
 
+/**
+ * @name 设置SessionStorage
+ * @param {string} [key=""] 键
+ * @param {string} [val=""] 值
+ */
+function setSStorage (key = "", val = "") {
+	sessionStorage.setItem(key, JSON.stringify(val));
+}
+
+export {
+	clearLStorage,
+	clearSStorage,
+	getLStorage,
+	getSStorage,
+	removeLStorage,
+	removeSStorage,
+	setLStorage,
+	setSStorage
+};

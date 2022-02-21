@@ -4,7 +4,7 @@
  * @name 格式倒计时
  * @param {string} [time=null] 日期：YYYY-MM-DD HH:mm:ss
  */
-function formatCountdown(time = null) {
+function formatCountdown (time = null) {
   const nowTime = +new Date();
   const nextTime = +new Date(time);
   const diff = nextTime - nowTime;
@@ -23,7 +23,7 @@ function formatCountdown(time = null) {
  * @name 格式时间差
  * @param {string} [time=null] 日期：YYYY-MM-DD HH:mm:ss
  */
-function formatDiffTime(time = null) {
+function formatDiffTime (time = null) {
   const nowTime = +new Date();
   const tgtTime = +new Date(time);
   const diff = nowTime - tgtTime;
@@ -57,11 +57,6 @@ function formatDiffTime(time = null) {
 }
 
 export {
-  formatCountdown,
-  formatDiffTime
-};
-
-export default {
   formatCountdown,
   formatDiffTime
 };

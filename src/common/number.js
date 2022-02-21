@@ -4,7 +4,7 @@
  * @name 字节大小
  * @param {number} [byte=0] 字节
  */
-function byteSize(byte = 0) {
+function byteSize (byte = 0) {
   if (byte === 0) return "0 B";
   const unit = 1024;
   const sizes = ["B", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB"];
@@ -17,7 +17,7 @@ function byteSize(byte = 0) {
  * @param {number} [num=0] 数值
  * @param {number} [len=0] 补位
  */
-function fillNum(num = 0, len = 0) {
+function fillNum (num = 0, len = 0) {
   return num.toString().padStart(len, "0");
 }
 
@@ -26,7 +26,7 @@ function fillNum(num = 0, len = 0) {
  * @param {number} [min=0] 最小数
  * @param {number} [max=10] 最大数
  */
-function randomNum(min = 0, max = 10) {
+function randomNum (min = 0, max = 10) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
@@ -36,11 +36,11 @@ function randomNum(min = 0, max = 10) {
  * @param {number} [max=10] 最大数
  * @param {number} [count=1] 个数
  */
-function randomNumPlus(min = 0, max = 10, count = 1) {
+function randomNumPlus (min = 0, max = 10, count = 1) {
   const randoms = [];
   while (true) {
     let isExists = false;
-    const random = randomNum(min, max);
+    const random = RandomNum(min, max);
     for (let i = 0; i < randoms.length; i++) {
       if (random === randoms[i]) {
         isExists = true;
@@ -62,7 +62,7 @@ function randomNumPlus(min = 0, max = 10, count = 1) {
  * @param {number} [dec=2] 小数个数
  * @param {boolean} [per=false] 是否百分比
  */
-function roundNum(num = 0, dec = 2, per = false) {
+function roundNum (num = 0, dec = 2, per = false) {
   return per
     ? Math.round(num * 10 ** dec * 100) / 10 ** dec + "%"
     : Math.round(num * 10 ** dec) / 10 ** dec;
@@ -72,20 +72,11 @@ function roundNum(num = 0, dec = 2, per = false) {
  * @name 千分数值
  * @param {number} [num=0] 数值
  */
-function thousandNum(num = 0) {
+function thousandNum (num = 0) {
   return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
 export {
-  byteSize,
-  fillNum,
-  randomNum,
-  randomNumPlus,
-  roundNum,
-  thousandNum
-};
-
-export default {
   byteSize,
   fillNum,
   randomNum,

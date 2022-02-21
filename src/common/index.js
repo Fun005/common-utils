@@ -1,27 +1,36 @@
 import {
-	sleep,
-	throttle,
-	debounce,
-} from './function.js'
-
-import {
-	imgCompress,
-} from './file.js'
-
+	groupMemKey,
+	recordMemPosition,
+	statMemCount,
+	statMemKeyword
+} from "./array.js";
 import {
 	formatCountdown,
 	formatDiffTime
-} from './date.js'
-
+} from "./date.js";
+import {
+	asyncTo,
+	debounce,
+	throttle,
+	waitFor
+} from "./function.js";
 import {
 	byteSize,
 	fillNum,
 	randomNum,
 	randomNumPlus,
 	roundNum,
-	thousandNum,
-} from './number.js'
-
+	thousandNum
+} from "./number.js";
+import {
+	getKeys,
+	getDeepObj
+} from "./object.js";
+import {
+	checkText,
+	checkTextPlus,
+	matchBracketText
+} from "./regexp.js";
 import {
 	desePhone,
 	formatPhone,
@@ -29,20 +38,8 @@ import {
 	randomId,
 	removeTag,
 	reverseText,
-	starScore,
-} from './string.js'
-
-import {
-	getKeys,
-	getDeepObj,
-} from './object'
-
-import {
-	CheckText,
-	CheckTextPlus,
-	MatchBracketText,
-} from './validator.js'
-
+	startScore
+} from "./string.js";
 import {
 	compareObj,
 	envType,
@@ -72,44 +69,25 @@ import {
 	isWeakMap,
 	isWeakSet,
 	isWeb,
-	TypeOf
-} from "./type";
+	typeOf
+} from "./type.js";
 
-
-export default {
-	sleep,
-	throttle,
+export {
+	asyncTo,
+	byteSize,
+	checkText,
+	checkTextPlus,
+	compareObj,
 	debounce,
-
-	imgCompress,
-
+	desePhone,
+	envType,
+	fillNum,
 	formatCountdown,
 	formatDiffTime,
-
-	byteSize,
-	fillNum,
-	randomNum,
-	randomNumPlus,
-	roundNum,
-	thousandNum,
-
-	desePhone,
 	formatPhone,
-	randomColor,
-	randomId,
-	removeTag,
-	reverseText,
-	starScore,
-
-	CheckText,
-	CheckTextPlus,
-	MatchBracketText,
-
 	getKeys,
 	getDeepObj,
-
-	compareObj,
-	envType,
+	groupMemKey,
 	isArguments,
 	isArray,
 	isAsyncFunction,
@@ -136,5 +114,20 @@ export default {
 	isWeakMap,
 	isWeakSet,
 	isWeb,
-	TypeOf,
-}
+	matchBracketText,
+	randomColor,
+	randomId,
+	randomNum,
+	randomNumPlus,
+	recordMemPosition,
+	removeTag,
+	reverseText,
+	roundNum,
+	startScore,
+	statMemCount,
+	statMemKeyword,
+	thousandNum,
+	throttle,
+	typeOf,
+	waitFor
+};
