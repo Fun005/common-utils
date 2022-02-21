@@ -1,5 +1,5 @@
 {
-  "name": "@funny/utils",
+  "name": "@tangc1/utils",
   "version": "0.1.0",
   "description": "common utils collection",
   "browser": "dist/index.js",
@@ -13,13 +13,11 @@
     "funnyUtils",
     "feUtils"
   ],
-  "author": {
-    "name": "fun005"
-  },
+  "author": "fun005",
   "homepage": "https://github.com/fun005",
   "repository": {
     "type": "git",
-    "url": "https://github.com/fun005/common-utils.git"
+    "url": "git+https://github.com/fun005/common-utils.git"
   },
   "license": "MIT",
   "dependencies": {
@@ -52,5 +50,9 @@
   },
   "publishConfig": {
     "access": "public"
-  }
+  },
+  "bugs": {
+    "url": "https://github.com/fun005/common-utils/issues"
+  },
+  "main": "rollup.config.js"
 }
