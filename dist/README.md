@@ -10,6 +10,7 @@
 - [x] 引入打包
 - [x] 目录结构（utils方法分类）整理
 - 用ts改写
+- 细分目录? ex: `utils.type.isxxx`，`utils.storage.xxx`
 
 
 ### 发布

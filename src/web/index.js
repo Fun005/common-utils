@@ -4,18 +4,6 @@ import {
 	setCookie
 } from "./cookie.js";
 import {
-	autoResponse,
-	copyPaste,
-	downloadFile,
-	filterXss,
-	img2Base64,
-	jsonp,
-	loadScript
-} from "./dom.js";
-import {
-	ajax
-} from "./function.js";
-import {
 	clearLStorage,
 	clearSStorage,
 	getLStorage,
@@ -25,6 +13,20 @@ import {
 	setLStorage,
 	setSStorage
 } from "./storage.js";
+import {
+	autoResponse,
+	copyPaste,
+	downloadFile,
+	filterXss,
+	img2Base64,
+	jsonp,
+	loadScript
+} from "./dom.js";
+import {
+	ajax,
+	limitRunTask,
+	multipleRequest
+} from "./function.js";
 import {
 	browserType,
 	isElement
@@ -51,7 +53,9 @@ export {
 	img2Base64,
 	isElement,
 	jsonp,
+	limitRunTask,
 	loadScript,
+	multipleRequest,
 	parseUrlSearch,
 	removeCookie,
 	removeLStorage,

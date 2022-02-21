@@ -39,7 +39,27 @@ function getDeepObj (obj, paths) {
   }, obj)
 }
 
+function deepClone (obj, map = new WeakMap) {
+  if (obj instanceof RegExp) return new RegExp(obj);
+  if (obj instanceof Date) return new Date(obj);
+
+  if (obj == null || typeof obj != 'object') return obj;
+  if (map.has(obj)) {
+    return map.get(obj)
+  }
+  let t = new obj.constructor()
+  map.set(obj, t)
+  for (let key in obj) {
+    if (obj.hasOwnProperty(key)) {
+      t[key] = deepClone(obj[key], map)
+    }
+  }
+  return t;
+}
+
+
 export {
   getKeys,
   getDeepObj,
+  deepClone
 };

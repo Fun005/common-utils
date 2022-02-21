@@ -24,7 +24,8 @@ import {
 } from "./number.js";
 import {
 	getKeys,
-	getDeepObj
+	getDeepObj,
+	deepClone
 } from "./object.js";
 import {
 	checkText,
@@ -79,6 +80,7 @@ export {
 	checkTextPlus,
 	compareObj,
 	debounce,
+	deepClone,
 	desePhone,
 	envType,
 	fillNum,

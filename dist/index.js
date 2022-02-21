@@ -934,7 +934,7 @@
   /**
    * @name 防抖
    * @param {function} [fn=v=>v] 函数
-   * @param {number} [dura=50] 时延
+   * @param {number} [dura=500] 时延
    */
 
 
@@ -960,7 +960,7 @@
   /**
    * @name 节流
    * @param {function} [fn=v=>v] 函数
-   * @param {number} [dura=50] 时延
+   * @param {number} [dura=500] 时延
    */
 
 
@@ -986,7 +986,7 @@
   }
   /**
    * @name 等待
-   * @param {number} [dura=1000] 时延
+   * @param {number} [wait=1000] 时延
    */
 
 
@@ -996,17 +996,17 @@
 
   function _waitFor() {
     _waitFor = _asyncToGenerator( /*#__PURE__*/regenerator.mark(function _callee() {
-      var dura,
+      var wait,
           _args = arguments;
       return regenerator.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              dura = _args.length > 0 && _args[0] !== undefined ? _args[0] : 1000;
+              wait = _args.length > 0 && _args[0] !== undefined ? _args[0] : 1000;
               return _context.abrupt("return", new Promise(function (resolve) {
                 return setTimeout(function () {
                   return resolve(true);
-                }, dura);
+                }, wait);
               }));
 
             case 2:
@@ -1163,6 +1163,28 @@
 
       return value[key];
     }, obj);
+  }
+
+  function deepClone(obj) {
+    var map = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : new WeakMap();
+    if (obj instanceof RegExp) return new RegExp(obj);
+    if (obj instanceof Date) return new Date(obj);
+    if (obj == null || _typeof(obj) != 'object') return obj;
+
+    if (map.has(obj)) {
+      return map.get(obj);
+    }
+
+    var t = new obj.constructor();
+    map.set(obj, t);
+
+    for (var key in obj) {
+      if (obj.hasOwnProperty(key)) {
+        t[key] = deepClone(obj[key], map);
+      }
+    }
+
+    return t;
   }
 
   /** 正则工具 **/
@@ -1591,6 +1613,7 @@
     checkTextPlus: checkTextPlus,
     compareObj: compareObj,
     debounce: debounce,
+    deepClone: deepClone,
     desePhone: desePhone,
     envType: envType,
     fillNum: fillNum,
@@ -1682,6 +1705,87 @@
     var date = new Date();
     date.setDate(date.getDate() + day);
     document.cookie = "".concat(key, "=").concat(val, ";expires=").concat(date);
+  }
+
+  /** Storage工具 **/
+
+  /**
+   * @name 清空LocalStorage
+   */
+  function clearLStorage() {
+    localStorage.clear();
+  }
+  /**
+   * @name 清空SessionStorage
+   */
+
+
+  function clearSStorage() {
+    sessionStorage.clear();
+  }
+  /**
+   * @name 读取LocalStorage
+   * @param {string} [key=""] 键
+   */
+
+
+  function getLStorage() {
+    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+    return JSON.parse(localStorage.getItem(key));
+  }
+  /**
+   * @name 读取SessionStorage
+   * @param {string} [key=""] 键
+   */
+
+
+  function getSStorage() {
+    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+    return JSON.parse(sessionStorage.getItem(key));
+  }
+  /**
+   * @name 移除LocalStorage
+   * @param {string} [key=""] 键
+   */
+
+
+  function removeLStorage() {
+    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+    localStorage.removeItem(key);
+  }
+  /**
+   * @name 移除SessionStorage
+   * @param {string} [key=""] 键
+   */
+
+
+  function removeSStorage() {
+    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+    sessionStorage.removeItem(key);
+  }
+  /**
+   * @name 设置LocalStorage
+   * @param {string} [key=""] 键
+   * @param {string} [val=""] 值
+   */
+
+
+  function setLStorage() {
+    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+    var val = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+    localStorage.setItem(key, JSON.stringify(val));
+  }
+  /**
+   * @name 设置SessionStorage
+   * @param {string} [key=""] 键
+   * @param {string} [val=""] 值
+   */
+
+
+  function setSStorage() {
+    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+    var val = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
+    sessionStorage.setItem(key, JSON.stringify(val));
   }
 
   function _arrayWithHoles(arr) {
@@ -2103,85 +2207,85 @@
     };
   }
 
-  /** Storage工具 **/
+  function limitRunTask(tasks, n) {
+    return new Promise(function (resolve, reject) {
+      var index = 0,
+          finish = 0,
+          start = 0,
+          result = [];
+      var taskLen = tasks.length;
 
-  /**
-   * @name 清空LocalStorage
-   */
-  function clearLStorage() {
-    localStorage.clear();
+      function run() {
+        if (finish === taskLen) {
+          resolve(result);
+          return;
+        }
+
+        var _loop = function _loop() {
+          // 每阶段的任务数量++
+          start++;
+          var current = index;
+          tasks[index++]().then(function (v) {
+            start--;
+            finish++;
+            result[current] = v;
+            run();
+          });
+        };
+
+        while (start < n && index < taskLen) {
+          _loop();
+        }
+      }
+
+      run();
+    });
   }
-  /**
-   * @name 清空SessionStorage
-   */
 
+  function multipleRequest() {
+    var urls = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+    var maxNum = arguments.length > 1 ? arguments[1] : undefined;
+    // 请求总数量
+    var len = urls.length; // 根据请求数量创建一个数组，保存请求的结果
 
-  function clearSStorage() {
-    sessionStorage.clear();
-  }
-  /**
-   * @name 读取LocalStorage
-   * @param {string} [key=""] 键
-   */
+    var result = new Array(len).fill(false); // 当前完成数量
 
+    var count = 0;
+    return new Promise(function (resolve, reject) {
+      // 最多请求maxNum
+      while (count < maxNum) {
+        run();
+      }
 
-  function getLStorage() {
-    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
-    return JSON.parse(localStorage.getItem(key));
-  }
-  /**
-   * @name 读取SessionStorage
-   * @param {string} [key=""] 键
-   */
+      function run() {
+        var current = count++; //处理边界条件
 
+        if (current >= len) {
+          // 请求全部完成就将promise置为成功的状态，然后将result作为promise值返回
+          !result.includes(false) && resolve(result);
+          return;
+        }
 
-  function getSStorage() {
-    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
-    return JSON.parse(sessionStorage.getItem(key));
-  }
-  /**
-   * @name 移除LocalStorage
-   * @param {string} [key=""] 键
-   */
+        var url = urls[current];
+        console.time("start ".concat(current));
+        fetch(url).then(function (res) {
+          // 保存请求结果
+          result[current] = res;
+          console.log("end ".concat(current, ", ").concat(new Date().toLocaleString())); // 请求没有完成，递归执行
 
+          if (current < len) {
+            run();
+          }
+        })["catch"](function (err) {
+          console.time("end ".concat(current, ", ").concat(new Date().toLocaleString()));
+          result[current] = err; // 请求没有完成，递归执行
 
-  function removeLStorage() {
-    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
-    localStorage.removeItem(key);
-  }
-  /**
-   * @name 移除SessionStorage
-   * @param {string} [key=""] 键
-   */
-
-
-  function removeSStorage() {
-    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
-    sessionStorage.removeItem(key);
-  }
-  /**
-   * @name 设置LocalStorage
-   * @param {string} [key=""] 键
-   * @param {string} [val=""] 值
-   */
-
-
-  function setLStorage() {
-    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
-    var val = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
-    localStorage.setItem(key, JSON.stringify(val));
-  }
-  /**
-   * @name 设置SessionStorage
-   * @param {string} [key=""] 键
-   * @param {string} [val=""] 值
-   */
-
-
-  function setSStorage() {
-    var key = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
-    var val = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "";
-    sessionStorage.setItem(key, JSON.stringify(val));
+          if (current < len) {
+            run();
+          }
+        });
+      }
+    });
   }
 
   /** 类型工具 **/
@@ -2370,7 +2474,9 @@
     img2Base64: img2Base64,
     isElement: isElement,
     jsonp: jsonp,
+    limitRunTask: limitRunTask,
     loadScript: loadScript,
+    multipleRequest: multipleRequest,
     parseUrlSearch: parseUrlSearch,
     removeCookie: removeCookie,
     removeLStorage: removeLStorage,

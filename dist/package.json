@@ -1,6 +1,6 @@
 {
   "name": "@tangc1/utils",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "common utils collection",
   "browser": "dist/index.js",
   "scripts": {

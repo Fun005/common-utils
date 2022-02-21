@@ -3,7 +3,7 @@
 /**
  * @name 读取Cookie
  */
-function getCookie() {
+function getCookie () {
   const cookies = document.cookie;
   return cookies ? cookies.split("; ").reduce((t, v) => {
     const cookie = v.split("=");
@@ -16,7 +16,7 @@ function getCookie() {
  * @name 删除Cookie
  * @param {string} [key=""] 键
  */
-function removeCookie(key = "") {
+function removeCookie (key = "") {
   setCookie(key, "", -1);
 }
 
@@ -26,7 +26,7 @@ function removeCookie(key = "") {
  * @param {string} [val=""] 值
  * @param {number} [day=1] 过期时间(日)
  */
-function setCookie(key = "", val = "", day = 1) {
+function setCookie (key = "", val = "", day = 1) {
   const date = new Date();
   date.setDate(date.getDate() + day);
   document.cookie = `${key}=${val};expires=${date}`;
@@ -35,7 +35,7 @@ function setCookie(key = "", val = "", day = 1) {
 /**
  * 清除所有cookie
  */
-function clearAllCookie() {
+function clearAllCookie () {
   let keys = document.cookie.match(/[^ =;]+(?=\=)/g);
   if (keys) {
     for (let i = keys.length; i--;)
@@ -48,11 +48,4 @@ export {
   removeCookie,
   setCookie,
   clearAllCookie,
-};
-
-export default {
-  getCookie,
-  removeCookie,
-  setCookie,
-  clearAllCookie
 };
