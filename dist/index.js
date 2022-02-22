@@ -139,6 +139,55 @@
     }
   }
 
+  function dateToText(date) {
+    if (date) {
+      var diffTime = dayjs().valueOf() - dayjs(date).valueOf();
+      var minutes = 60000;
+      var hours = 3600000;
+      var day = 86400000;
+      var month = 2592000000;
+      var year = 31104000000;
+
+      if (diffTime < minutes) {
+        return '刚刚';
+      } else if (diffTime < hours) {
+        return "".concat((diffTime / minutes).toFixed(0), "\u5206\u949F\u524D");
+      } else if (diffTime < day) {
+        return "".concat((diffTime / hours).toFixed(0), "\u5C0F\u65F6\u524D");
+      } else if (diffTime < month) {
+        return "".concat((diffTime / day).toFixed(0), "\u5929\u524D");
+      } else if (diffTime < year) {
+        return "".concat((diffTime / month).toFixed(0), "\u6708\u524D");
+      }
+
+      return "".concat((diffTime / year).toFixed(0), "\u5E74\u524D");
+    }
+
+    return '';
+  }
+
+  function formatRemainingTime(datetime, _now) {
+    var now = _now || dayjs();
+
+    var padTime = function padTime(timeStr) {
+      timeStr = timeStr.toString();
+      return timeStr.length > 1 ? timeStr : "0".concat(timeStr);
+    };
+
+    var hours = padTime(datetime.diff(now, 'H'));
+    var mins = padTime(datetime.diff(now, 'm') % 60);
+    var secs = padTime(datetime.diff(now, 'S') % 60);
+    return "".concat(hours == '00' ? '' : "".concat(hours, ":")).concat(mins, ":").concat(secs);
+  }
+
+  function formatDays() {
+    var days = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+    var year = parseInt(days / 365);
+    var month = parseInt(days % 365 / 30);
+    var date = days % 365 % 30;
+    return "".concat(year > 0 ? year + '年' : '').concat(month > 0 ? month + '个月' : '').concat(date > 0 ? date + '天' : '');
+  }
+
   function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
     try {
       var info = gen[key](arg);
@@ -921,11 +970,11 @@
 
   /**
    * @name 格式异步返回值
-   * @param {function} [pfn=Promise.resolve(true)] Promise函数
+   * @param {function} [fn=Promise.resolve(true)] Promise函数
    */
   function asyncTo() {
-    var pfn = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : Promise.resolve(true);
-    return pfn && pfn instanceof Promise ? pfn.then(function (data) {
+    var fn = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : Promise.resolve(true);
+    return fn && fn instanceof Promise ? fn.then(function (data) {
       return [null, data];
     })["catch"](function (err) {
       return [err];
@@ -933,15 +982,12 @@
   }
   /**
    * @name 防抖
-   * @param {function} [fn=v=>v] 函数
+   * @param {function} [fn] 函数
    * @param {number} [dura=500] 时延
    */
 
 
-  function debounce() {
-    var fn = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function (v) {
-      return v;
-    };
+  function debounce(fn) {
     var delay = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 500;
     var timer = null;
     return function () {
@@ -959,15 +1005,12 @@
   }
   /**
    * @name 节流
-   * @param {function} [fn=v=>v] 函数
+   * @param {function} [fn] 函数
    * @param {number} [dura=500] 时延
    */
 
 
-  function throttle() {
-    var fn = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : function (v) {
-      return v;
-    };
+  function throttle(fn) {
     var delay = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 500;
     var pass = 0;
     return function () {
@@ -1344,6 +1387,24 @@
     return MATCH.phone.regexp.test(phone) && ["-", " "].includes(sign) ? phone.toString().replace(/(\d{3})(\d{4})(\d{4})/g, "$1".concat(sign, "$2").concat(sign, "$3")) : phone;
   }
   /**
+   * 随机串
+   * @param {number} [len=32] 长度 在1~10之间
+   */
+
+
+  function randomString() {
+    var len = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 32;
+    var $chars = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678";
+    var maxPos = $chars.length;
+    var pwd = "";
+
+    for (var i = 0; i < len; i++) {
+      pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+    }
+
+    return pwd;
+  }
+  /**
    * @name 随机HEX色值
    */
 
@@ -1596,6 +1657,19 @@
   function isEmpty(data) {
     return !data; // undefined null "" 0 false NaN
   }
+  /**
+   * @description 判断是否空字符串
+   * @param {String} str
+   * @return {Boolean}
+   */
+
+
+  function isEmptyString(str) {
+    if (str === null || str === undefined || str === '') return true;
+    if (typeof str !== 'string') str = str.toString();
+    if (str.replace(/(^\s*)|(\s*$)/g, "").length === 0) return true;
+    return false;
+  }
 
   function isEmptyArray(data) {
     return Array.isArray(data) && !data.length;
@@ -1612,14 +1686,17 @@
     checkText: checkText,
     checkTextPlus: checkTextPlus,
     compareObj: compareObj,
+    dateToText: dateToText,
     debounce: debounce,
     deepClone: deepClone,
     desePhone: desePhone,
     envType: envType,
     fillNum: fillNum,
     formatCountdown: formatCountdown,
+    formatDays: formatDays,
     formatDiffTime: formatDiffTime,
     formatPhone: formatPhone,
+    formatRemainingTime: formatRemainingTime,
     getKeys: getKeys,
     getDeepObj: getDeepObj,
     groupMemKey: groupMemKey,
@@ -1632,6 +1709,7 @@
     isEmpty: isEmpty,
     isEmptyArray: isEmptyArray,
     isEmptyObject: isEmptyObject,
+    isEmptyString: isEmptyString,
     isEqual: isEqual,
     isError: isError,
     isFunction: isFunction,
@@ -1654,6 +1732,7 @@
     randomId: randomId,
     randomNum: randomNum,
     randomNumPlus: randomNumPlus,
+    randomString: randomString,
     recordMemPosition: recordMemPosition,
     removeTag: removeTag,
     reverseText: reverseText,
@@ -1862,6 +1941,24 @@
     selection.addRange(range);
     document.execCommand("copy", false, null);
     selection.removeRange(range);
+  } // 格式转换 base64->blob 防止base64 too large
+
+
+  function convertToBlob(_base64) {
+    var byteString = atob(_base64.split(',')[1]);
+
+    var mimeString = _base64.split(',')[0].split(':')[1].split(';')[0];
+
+    var ab = new ArrayBuffer(byteString.length);
+    var ia = new Uint8Array(ab);
+
+    for (var i = 0; i < byteString.length; i++) {
+      ia[i] = byteString.charCodeAt(i);
+    }
+
+    return new Blob([ab], {
+      type: mimeString
+    });
   }
   /**
    * @name 下载文件
@@ -2449,6 +2546,41 @@
     });
   }
   /**
+   * 获取浏览器信息
+   * @returns {Object}
+   */
+
+
+  function getBrowserInfo() {
+    var u = navigator.userAgent;
+    return {
+      trident: u.indexOf('Trident') > -1,
+      //IE内核
+      presto: u.indexOf('Presto') > -1,
+      //opera内核
+      webKit: u.indexOf('AppleWebKit') > -1,
+      //苹果、谷歌内核
+      gecko: u.indexOf('Gecko') > -1 && u.indexOf('KHTML') === -1,
+      //火狐内核
+      mobile: !!u.match(/AppleWebKit.*Mobile.*/),
+      //是否为移动终端
+      ios: !!u.match(/\(i[^;]+;( U;)? CPU.+Mac OS X/),
+      //ios终端
+      android: u.indexOf('Android') > -1 || u.indexOf('Adr') > -1,
+      //android终端
+      iPhone: u.indexOf('iPhone') > -1,
+      //是否为iPhone或者QQHD浏览器
+      iPad: u.indexOf('iPad') > -1,
+      //是否iPad
+      webApp: u.indexOf('Safari') === -1,
+      //是否web应该程序，没有头部与底部
+      weixin: u.indexOf('MicroMessenger') > -1,
+      //是否微信
+      qq: u.match(/\sQQ/i) === "qq" //是否QQ
+
+    };
+  }
+  /**
    * @name 判断Element
    * @param {*} data 数据
    */
@@ -2465,9 +2597,11 @@
     browserType: browserType,
     clearLStorage: clearLStorage,
     clearSStorage: clearSStorage,
+    convertToBlob: convertToBlob,
     copyPaste: copyPaste,
     downloadFile: downloadFile,
     filterXss: filterXss,
+    getBrowserInfo: getBrowserInfo,
     getCookie: getCookie,
     getLStorage: getLStorage,
     getSStorage: getSStorage,

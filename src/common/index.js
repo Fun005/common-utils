@@ -5,8 +5,11 @@ import {
 	statMemKeyword
 } from "./array.js";
 import {
+	dateToText,
+	formatDays,
 	formatCountdown,
-	formatDiffTime
+	formatDiffTime,
+	formatRemainingTime
 } from "./date.js";
 import {
 	asyncTo,
@@ -37,6 +40,7 @@ import {
 	formatPhone,
 	randomColor,
 	randomId,
+	randomString,
 	removeTag,
 	reverseText,
 	startScore
@@ -53,6 +57,7 @@ import {
 	isEmpty,
 	isEmptyArray,
 	isEmptyObject,
+	isEmptyString,
 	isEqual,
 	isError,
 	isFunction,
@@ -79,14 +84,17 @@ export {
 	checkText,
 	checkTextPlus,
 	compareObj,
+	dateToText,
 	debounce,
 	deepClone,
 	desePhone,
 	envType,
 	fillNum,
 	formatCountdown,
+	formatDays,
 	formatDiffTime,
 	formatPhone,
+	formatRemainingTime,
 	getKeys,
 	getDeepObj,
 	groupMemKey,
@@ -99,6 +107,7 @@ export {
 	isEmpty,
 	isEmptyArray,
 	isEmptyObject,
+	isEmptyString,
 	isEqual,
 	isError,
 	isFunction,
@@ -121,6 +130,7 @@ export {
 	randomId,
 	randomNum,
 	randomNumPlus,
+	randomString,
 	recordMemPosition,
 	removeTag,
 	reverseText,

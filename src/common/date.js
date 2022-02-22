@@ -56,7 +56,56 @@ function formatDiffTime (time = null) {
   }
 }
 
+function dateToText (date) {
+  if (date) {
+    const diffTime = dayjs().valueOf() - dayjs(date).valueOf();
+    const minutes = 60000;
+    const hours = 3600000;
+    const day = 86400000;
+    const month = 2592000000;
+    const year = 31104000000;
+    if (diffTime < minutes) {
+      return '刚刚';
+    } else if (diffTime < hours) {
+      return `${(diffTime / minutes).toFixed(0)}分钟前`;
+    } else if (diffTime < day) {
+      return `${(diffTime / hours).toFixed(0)}小时前`;
+    } else if (diffTime < month) {
+      return `${(diffTime / day).toFixed(0)}天前`;
+    } else if (diffTime < year) {
+      return `${(diffTime / month).toFixed(0)}月前`;
+    }
+    return `${(diffTime / year).toFixed(0)}年前`;
+  }
+  return '';
+}
+
+function formatRemainingTime (datetime, _now) {
+  const now = _now || dayjs();
+  const padTime = timeStr => {
+    timeStr = timeStr.toString();
+    return timeStr.length > 1 ? timeStr : `0${timeStr}`;
+  };
+
+  const hours = padTime(datetime.diff(now, 'H'));
+  const mins = padTime(datetime.diff(now, 'm') % 60);
+  const secs = padTime(datetime.diff(now, 'S') % 60);
+
+  return `${hours == '00' ? '' : `${hours}:`}${mins}:${secs}`;
+}
+
+function formatDays (days = 0) {
+  const year = parseInt(days / 365);
+  const month = parseInt((days % 365) / 30);
+  const date = (days % 365) % 30;
+  return `${year > 0 ? year + '年' : ''}${month > 0 ? month + '个月' : ''}${date > 0 ? date + '天' : ''
+    }`;
+}
+
 export {
+  dateToText,
   formatCountdown,
-  formatDiffTime
+  formatDays,
+  formatDiffTime,
+  formatRemainingTime
 };

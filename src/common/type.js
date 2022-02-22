@@ -176,6 +176,18 @@ function isEmpty (data) {
 	return !data; // undefined null "" 0 false NaN
 }
 
+/**
+ * @description 判断是否空字符串
+ * @param {String} str
+ * @return {Boolean}
+ */
+function isEmptyString (str) {
+	if (str === null || str === undefined || str === '') return true;
+	if (typeof str !== 'string') str = str.toString();
+	if (str.replace(/(^\s*)|(\s*$)/g, "").length === 0) return true;
+	return false;
+}
+
 function isEmptyArray (data) {
 	return Array.isArray(data) && !data.length;
 }
@@ -196,6 +208,7 @@ export {
 	isEmpty, // 判断空
 	isEmptyArray, // 判断空数组
 	isEmptyObject, // 判断空对象
+	isEmptyString, // 判断空字符串
 	isEqual, // 判断相等
 	isError, // 判断错误
 	isFunction, // 判断函数

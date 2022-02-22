@@ -14,5 +14,5 @@
 
 
 ### 发布
-npm run build
-npm run publish -- -v 0.0.2
+ - npm run build
+ - npm run publish -- -v 0.0.2

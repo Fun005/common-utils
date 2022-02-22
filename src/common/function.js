@@ -2,18 +2,18 @@
 
 /**
  * @name 格式异步返回值
- * @param {function} [pfn=Promise.resolve(true)] Promise函数
+ * @param {function} [fn=Promise.resolve(true)] Promise函数
  */
-function asyncTo (pfn = Promise.resolve(true)) {
-  return pfn && pfn instanceof Promise ? pfn.then(data => [null, data]).catch(err => [err]) : [null, null];
+function asyncTo (fn = Promise.resolve(true)) {
+  return fn && fn instanceof Promise ? fn.then(data => [null, data]).catch(err => [err]) : [null, null];
 }
 
 /**
  * @name 防抖
- * @param {function} [fn=v=>v] 函数
+ * @param {function} [fn] 函数
  * @param {number} [dura=500] 时延
  */
-function debounce (fn = v => v, delay = 500) {
+function debounce (fn, delay = 500) {
   let timer = null;
   return function (...args) {
     timer && clearTimeout(timer);
@@ -23,10 +23,10 @@ function debounce (fn = v => v, delay = 500) {
 
 /**
  * @name 节流
- * @param {function} [fn=v=>v] 函数
+ * @param {function} [fn] 函数
  * @param {number} [dura=500] 时延
  */
-function throttle (fn = v => v, delay = 500) {
+function throttle (fn, delay = 500) {
   let pass = 0;
   return function (...args) {
     const now = +new Date();

@@ -23,6 +23,20 @@ function formatPhone (phone = "", sign = "-") {
 }
 
 /**
+ * 随机串
+ * @param {number} [len=32] 长度 在1~10之间
+ */
+function randomString (len = 32) {
+	var $chars = "ABCDEFGHJKMNPQRSTWXYZabcdefhijkmnprstwxyz2345678";
+	var maxPos = $chars.length;
+	var pwd = "";
+	for (let i = 0; i < len; i++) {
+		pwd += $chars.charAt(Math.floor(Math.random() * maxPos));
+	}
+	return pwd;
+}
+
+/**
  * @name 随机HEX色值
  */
 function randomColor () {
@@ -73,6 +87,7 @@ export {
 	formatPhone,
 	randomColor,
 	randomId,
+	randomString,
 	removeTag,
 	reverseText,
 	startScore

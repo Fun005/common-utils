@@ -30,6 +30,23 @@ function copyPaste (elem = document.body) {
     selection.removeRange(range);
 }
 
+// 格式转换 base64->blob 防止base64 too large
+function convertToBlob (_base64) {
+    var byteString = atob(_base64.split(',')[1])
+    var mimeString = _base64
+        .split(',')[0]
+        .split(':')[1]
+        .split(';')[0]
+    var ab = new ArrayBuffer(byteString.length)
+    var ia = new Uint8Array(ab)
+    for (var i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i)
+    }
+    return new Blob([ab], {
+        type: mimeString
+    })
+}
+
 /**
  * @name 下载文件
  * @param {string} [url=""] 地址
@@ -122,6 +139,7 @@ async function loadScript (url = "", pst = "body") {
 
 export {
     autoResponse,
+    convertToBlob,
     copyPaste,
     downloadFile,
     filterXss,

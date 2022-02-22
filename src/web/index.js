@@ -15,6 +15,7 @@ import {
 } from "./storage.js";
 import {
 	autoResponse,
+	convertToBlob,
 	copyPaste,
 	downloadFile,
 	filterXss,
@@ -29,7 +30,8 @@ import {
 } from "./function.js";
 import {
 	browserType,
-	isElement
+	isElement,
+	getBrowserInfo
 } from "./type.js";
 import {
 	parseUrlSearch,
@@ -44,9 +46,11 @@ export {
 	browserType,
 	clearLStorage,
 	clearSStorage,
+	convertToBlob,
 	copyPaste,
 	downloadFile,
 	filterXss,
+	getBrowserInfo,
 	getCookie,
 	getLStorage,
 	getSStorage,
